@@ -23,19 +23,19 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
- 
+
         Usuario usuario = usuarioDAO.findByLogin(string);
-                
+
         if (usuario == null) {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
-        
+
         String username = usuario.getUsername();
         String password = usuario.getPassword();
 
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority(usuario.getRol()));
-        
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + usuario.getRol()));
+
         return new User(username, password, authorities);
     }
 }
